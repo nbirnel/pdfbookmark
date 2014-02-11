@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+h = Hash.new
+
+while gets() do
+  #expect a header line and ignore it
+  next if $. == 1
+  h[:bm], h[:p] = $_.chomp.split("\t")
+  
+  #strip wrapping double quotes
+  h.each_value{|v| v.sub!(/^"(.*)"$/, '\1')}
+
+  ##squeeze doubled double quotes
+  #h.each_value{|v| v.gsub!(/""/, '"')}
+  
+  #strip leading junk and zeros from page
+  h[:p].sub!(/.*[^0-9]0*/, '')
+  puts "[/Title (#{h[:bm]}) /Page #{h[:p]} /OUT pdfmark"
+end
+
+#gs -dBATCH -dNOPAUSE -sPAPERSIZE=letter -sDEVICE=pdfwrite -sOutputFile="$dest" *.pdf pdfmarks

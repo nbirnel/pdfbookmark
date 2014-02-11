@@ -1,0 +1,43 @@
+#!/bin/sh
+
+#pdftk Cover/Cover.pdf dump_data output 1.txt
+#
+#InfoKey: Creator
+#InfoValue: ExperVision
+#InfoKey: Producer
+#InfoValue: TypeReader 6.0 Professional
+#NumberOfPages: 1
+#PageLabelNewIndex: 1
+#PageLabelStart: 1
+#PageLabelNumStyle: DecimalArabicNumerals
+#
+
+dest="$1"
+
+# first, get our output in order: make a listing in the correct order
+ls >listing
+$EDITOR listing
+mkdir -p flat
+rm -f flat/pdfmarks
+p=1
+
+for i in `cat listing`; do
+    bm="$(ls "$i" | sed 's/\.pdf$//')"
+    pp="$(pdftk "$i/"*.pdf dump_data output - | sed -n 's/NumberOfPages:\s*//p')"
+    echo '[/Title ('"$bm"') /Page '$p' /OUT pdfmark' >>flat/pdfmarks
+    echo "Processing $i" 1>&2
+    let p=p+pp
+done
+
+# then flatten the pdfs namespace into flat/  and move pdfmarks  flat/
+c=1
+
+for i in `cat listing`; do
+    mv -v $i/* flat/$(printf '%06d.pdf' $c)
+    let c=c+1
+done
+
+exit
+(cd flat
+gs -dBATCH -dNOPAUSE -sPAPERSIZE=letter -sDEVICE=pdfwrite -sOutputFile="$dest" *.pdf pdfmarks
+)
