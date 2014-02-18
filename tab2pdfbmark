@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+pdf = ARGV.shift.sub(/$/, ".pdf")
+
+marks = File.open('pdfmarks', 'w')
+
 h = Hash.new
 
 while gets() do
@@ -14,8 +18,13 @@ while gets() do
   #h.each_value{|v| v.gsub!(/""/, '"')}
   
   #strip leading junk and zeros from page
+  #FIXME we can probably grab the 1st page and offset all others from that?
+  #or allow pgcount to be the last field
   h[:p].sub!(/.*[^0-9]0*/, '')
-  puts "[/Title (#{h[:bm]}) /Page #{h[:p]} /OUT pdfmark"
+
+  marks.puts "[/Title (#{h[:bm]}) /Page #{h[:p]} /OUT pdfmark"
 end
 
-#gs -dBATCH -dNOPAUSE -sPAPERSIZE=letter -sDEVICE=pdfwrite -sOutputFile="$dest" *.pdf pdfmarks
+marks.close
+
+puts %Q(gs -dBATCH -dNOPAUSE -sPAPERSIZE=letter -sDEVICE=pdfwrite -sOutputFile="#{pdf}" *.pdf pdfmarks)
