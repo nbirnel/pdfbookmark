@@ -15,7 +15,7 @@ while gets() do
   h.each_value{|v| v.sub!(/^"(.*)"$/, '\1')}
 
   ##squeeze doubled double quotes
-  #h.each_value{|v| v.gsub!(/""/, '"')}
+  h.each_value{|v| v.gsub!(/""/, '"')}
   
   #strip leading junk and zeros from page
   #FIXME we can probably grab the 1st page and offset all others from that?
