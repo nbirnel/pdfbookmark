@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+header = 1
+start = header + 1
 pdf = ARGV.shift.sub(/$/, ".pdf")
 
 marks = File.open('pdfmarks', 'w')
@@ -8,7 +10,7 @@ h = Hash.new
 
 while gets() do
   #expect a header line and ignore it
-  next if $. == 1
+  next if $. == header
   h[:bm], h[:p] = $_.chomp.split("\t")
   
   #strip wrapping double quotes
@@ -18,11 +20,9 @@ while gets() do
   h.each_value{|v| v.gsub!(/""/, '"')}
   
   #strip leading junk and zeros from page
-  #FIXME we can probably grab the 1st page and offset all others from that?
-  #or allow pgcount to be the last field
-  h[:p].sub!(/.*[^0-9]0*/, '')
-  offset = h[:p].to_i - 1 if $. == 2
-  page = h[:p].to_i - offset
+  page = h[:p].sub(/.*[^0-9]0*/, '').to_i
+  offset = page - 1 if $. == start
+  page = page - offset
 
   marks.puts "[/Title (#{h[:bm]}) /Page #{page} /OUT pdfmark"
 end
