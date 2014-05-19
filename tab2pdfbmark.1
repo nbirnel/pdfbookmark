@@ -1,0 +1,43 @@
+.# vim: ft=nroff
+.TH tab2pdfbmark 1 tab2pdfbmark\-0.0.1
+.SH NAME
+tab2pdfbmark \- convert a list of bookmarks and page counts to a bookmarked pdf.
+.SH SYNOPSIS
+.B tab2pdfbmark PDFNAME TABLIST
+.SH DESCRIPTION
+.B tab2pdfbmark
+generates a bookmarked pdf from a
+directory of pdfs
+and a tab\(hydelimited list of bookmark names and page counts, 
+such as LexisNexis® Law® saves from it's grid view.
+.SH OPTIONS
+.TP 5
+-d
+Dry run \(em
+print the ghostscript command which would be run to standard out.
+.TP 5
+--help 
+Print a brief usage message.
+.SH EXAMPLES
+.LP
+.B tab2pdfbmark PDFNAME TABLIST
+.SH EXIT STATUS
+Exits non-zero on error.
+.SH AUTHOR
+Noah Birnel
+.SH HISTORY
+.SH FILES
+.SH BUGS
+Probably.
+.SH SEE ALSO
+.TP
+.BR gs(1)
+.TP
+.BR ruby(1)
+.TP
+.IR http://partners.adobe.com/public/developer/en/acrobat/sdk/pdf/pdf_creation_apis_and_specs/pdfmarkReference.pdf
+.SH LICENSE
+Copyright 2014  Noah Birnel
+.sp
+MIT License
+
