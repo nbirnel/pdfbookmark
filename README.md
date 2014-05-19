@@ -68,7 +68,7 @@ it&rsquo;s grid view.</p>
 <td width="3%">
 
 
-<p style="margin-top: 1em">-d</p></td>
+<p style="margin-top: 1em"><b>-d</b></p></td>
 <td width="4%"></td>
 <td width="82%">
 
@@ -76,11 +76,6 @@ it&rsquo;s grid view.</p>
 <p style="margin-top: 1em">Dry run &mdash; print the
 ghostscript command which would be run to standard out.</p></td></tr>
 </table>
-
-<p style="margin-left:11%;">--help</p>
-
-<p style="margin-left:18%;">Print a brief usage
-message.</p>
 
 <h2>EXAMPLES
 <a name="EXAMPLES"></a>
