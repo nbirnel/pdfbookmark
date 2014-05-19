@@ -2,6 +2,15 @@
 
 header = 1
 start = header + 1
+
+todo = 'system'
+if ARGV[0] == '-d'
+  todo = 'puts'
+  ARGV.shift
+end
+
+method = Kernel.method(todo)
+
 pdf = ARGV.shift.sub(/$/, ".pdf")
 
 marks = File.open('pdfmarks', 'w')
@@ -33,5 +42,4 @@ gs = 'gs -dBATCH -dNOPAUSE -sPAPERSIZE=letter -sDEVICE=pdfwrite'
 of = "-sOutputFile=\"#{pdf}\""
 infiles = '*.pdf pdfmarks'
 gs_call = "#{gs} #{of} #{infiles}"
-puts gs_call
-`#{gs_call}`
+method.call gs_call
